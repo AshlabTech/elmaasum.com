@@ -17,6 +17,6 @@
 	$school = mysqli_fetch_array($Fschool);
 	$school_name = $school['name'];
 	$school_address = $school['address'];
-	$school_abbr = $school['abbr'];
+	$school_abbr = $school['abbr'] ;
 	
 ?>
