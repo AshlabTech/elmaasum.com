@@ -1,1 +1,5 @@
-php/connection.php
+/php/connection.php
+/students/php/connection.php
+/students/public/php/connection.php
+/administration/php/connection.php
+/administration/staff/php/connection.php
