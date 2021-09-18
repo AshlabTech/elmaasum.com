@@ -56,7 +56,13 @@ include_once('staff_summary.php');
 
 	<div class="col-md-12" style="min-height: 130px;"></div>
 	<div class="col-md-12">
+<?php
+$staff_id = $_SESSION['staff_info_id'];
+$sql = "SELECT * FROM staff_access where staff_info_id='$staff_id' AND nav_id=5";
+$run = $conn->query($sql);
+if($run->num_rows >0){
 
+?>
 		<table class="table tablexxxx table-hover table-condensed">
 			<thead>
 				<tr>
@@ -93,6 +99,9 @@ include_once('staff_summary.php');
 
 			</tbody>
 		</table>
+<?php
+}
+?>
 	</div>
 </div>
 

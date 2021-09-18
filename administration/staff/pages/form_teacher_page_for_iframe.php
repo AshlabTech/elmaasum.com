@@ -395,11 +395,11 @@ include_once('../../php/staff_data.php');
 								<td class="ptt-2" v-else>{{ giveRank(list.total, 'total')}}</td>
 								<td class="ptt-2">
 									<input type="text" :value="list.student_info_id" class="d-none">
-									<textarea  cols="2" :value="list.comment1" :id="'com_1_'+index" class="comment1 form-control" maxlength="280" style="width: 210px;" >{{list.comment1??''}}</textarea>
+									<textarea  cols="2" :value="list.comment1" :id="'com_1_'+index" class="comment1 form-control" maxlength="280" style="width: 210px;"  >{{ list.comment1??""}}</textarea>
 									<a data-toggle="modal" data-target="#exampleModalCenter" @click="setContainerId('com_1_'+index)" class="btn2 ">Insert Template...</a>
 								</td>
 								<td>
-									<textarea  cols="2" :value="list.comment2" :id="'com_2_'+index" class="comment2 form-control" maxlength="280" style="width: 210px;">{{list.comment2??''}}</textarea>
+									<textarea  cols="2" :value="list.comment2" :id="'com_2_'+index" class="comment2 form-control" maxlength="280" style="width: 210px;" >{{list.comment2??""}}</textarea>
 									<a data-toggle="modal" data-target="#exampleModalCenter" @click="setContainerId('com_2_'+index)" class="btn2 my-1 d-inline-block">Insert Template...</a>
 								</td>
 							</tr>
@@ -417,7 +417,7 @@ include_once('../../php/staff_data.php');
 								</button>
 							</div>
 							<div class="modal-body">
-								<table class="table w-100 tabl-hover">
+								<table class="table w-100 table-hover">
 									<thead>
 										<tr>
 											<th>s/n</th>
@@ -426,7 +426,7 @@ include_once('../../php/staff_data.php');
 										</tr>
 									</thead>
 									<tbody>
-										<tr v-for="(comment, index) in comments" @click="insertAtCaret(comment.comment)" tabindex="1">
+										<tr v-for="(comment, index) in comments" @click="insertAtCaret(comment.comment)" >
 											<td>{{index+1}}</td>
 											<td>{{comment.comment}}</td>
 											<td>{{comment.comment_type}}</td>
@@ -443,7 +443,7 @@ include_once('../../php/staff_data.php');
 				</div>
 			</div>
 		<?php } ?>
-		<input type="text" :value="forIframeLoaded" id="forIframeLoaded">
+		<input type="text" :value="forIframeLoaded" id="forIframeLoaded" style="display: none;">
 
 	</div>
 
@@ -512,22 +512,34 @@ if(isset($_POST['enterT'])){
 			commentData:[]
 		},
 		created() {
-
+			var $this = this;
+			this.lists.map((item)=>{
+				for(var x in $this.savedComment){					
+					if(item.student_info_id === $this.savedComment[x].student_info_id){
+						item.comment1 = $this.savedComment[x].comment1;
+						item.comment2 = $this.savedComment[x].comment2;
+						break;
+					}
+				}
+			});
 		},
 		methods: {
-			getComment(id, type){
+			getComment(id, type, container_id){
 				let comment = this.savedComment.filter((item)=>{					
 					return item.student_info_id === id;
 				})				
-				console.log(comment);
 				if(type == 1 && comment.length > 0){
-					return comment.comment1;
+					//console.log(comment[0].comment1);
+					$('#'+container_id).val(comment[0].comment1)
+					console.log($('#'+container_id));
+					return comment[0].comment1;
+
 				}
 
 				if(type == 2 && comment.length > 0){
-					return comment.comment2;
+					return comment[0].comment2;
 				}
-				return "";
+				//return "";
 
 			},
 			setContainerId(id) {
@@ -571,22 +583,23 @@ if(isset($_POST['enterT'])){
 				}
 				return ordinal_suffix_of(position);
 			},
-			insertAtCaret(text) {
-				$('#' + this.containerId).text(text);
+			insertAtCaret(text) {								
+				$('#' + this.containerId).val(text);
 				$('#exampleModalCenter').modal('hide')
 			},
 			savecomment(){
 				var $this = this;
 				$this.commentData = []
 				$('#commentdatavalue tr').each(function(){
-					if($(this).find('.comment1').text() != '' || $(this).find('.comment2').text() != ''){
+					if($(this).find('.comment1').val() != '' || $(this).find('.comment2').val() != ''){
 						$this.commentData.push({
 							'id': $(this).find('input').val(),
-							'comment1': $(this).find('.comment1').text(),
-							'comment2': $(this).find('.comment2').text()
+							'comment1': $(this).find('.comment1').val(),
+							'comment2': $(this).find('.comment2').val()
 						});
 					}
-				});				
+				});								
+				//console.log($this.commentData);
 				if(this.commentData.length >0){
 					$.post("../php/save_comment.php", {                                                    
 						comments : JSON.stringify(this.commentData),
@@ -605,7 +618,7 @@ if(isset($_POST['enterT'])){
 
 		},
 		mounted() {
-
+			console.log(this.savedComment)
 		}
 
 	})
