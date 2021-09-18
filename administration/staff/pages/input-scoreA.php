@@ -154,12 +154,21 @@ if (isset($_REQUEST['act']) && @$_REQUEST['act'] == "1") {
 		#mcl li {
 			margin: 0px;
 			padding: 5px;
-			width: 190px;
+			min-width: 190px;
 			border-bottom: 1px solid #ddd;
 			list-style: none;
 			cursor: pointer;
 			display: flex;
 			justify-content: space-between;
+		}
+		#mcl li .s3{
+			width: 10%;
+		}
+		#mcl li span:last-child{
+			width: 90%;
+		}
+		.no-b{
+			white-space: nowrap;
 		}
 
 		#mcl li:hover {
@@ -242,9 +251,7 @@ if (isset($_REQUEST['act']) && @$_REQUEST['act'] == "1") {
     padding:10px;
     height:50px;
 }
-.timerC div div span{
-    position:absolute;
-    top:-20px;
+.timerC div div span{        
     left:35px;
     /*  background:rgb(160,20,32);
      border-radius:5px; */
@@ -253,15 +260,14 @@ if (isset($_REQUEST['act']) && @$_REQUEST['act'] == "1") {
 }
 .timerC div div div{
     margin:0;
-    padding:0;
-    font-size:18px;    
+    padding:0;    
     color:rgb(160,20,32);
     
 }
 	</style>
 	</head>
 
-<body>
+<body class="w-100">
 	<script type="text/javascript">
 		function renderCountdown(dateEnd, display) {
 
@@ -324,40 +330,46 @@ if (isset($_REQUEST['act']) && @$_REQUEST['act'] == "1") {
             <span class="sr-only">Loading...</span>
         </div>		
 	</div>
-	<script>
 
-	</script>
 	<div id="page-wrapper" style="background: #fff !important;margin:0px;padding:10px 0px;display: none; width:100%;" onload="(function(){})()" >
 		<div id="page-inner">
-			<div class="row w-100">
-				<div class="container-fluid col-sm-12 col-md-4 col-lg-4" style=" font-size: 2em;font-weight: bolder; font-family: arial;">Input Score For All CA</div>
-				<div class="timerC col-sm-12 col-md-8 col-lg-8 ">
-					<div class="col-sm-12 col-md-3">
-						<div><span class="text-dark ml-5  d-inline-block">CA 1 Time Left:</span>
-							<div id="time1" class="alert alert-light p-1 text-danger text-center" style="font-size:1em;font-family:arial;letter-spacing:2px; font-weight:600;">Time Closed</div>
+			<div class="row w-100 pl-3">
+				<div class="container-fluid col-sm-12 col-md-4 col-lg-4 text-center" style=" font-size: 2em;font-weight: bolder; font-family: arial;">Input Score For All CA</div>
+				<div class="timerC col-sm-12 col-md-8 col-lg-8 mx-auto row mt-2 w-100 border rounded" >
+					<div class="col-sm-6 col-md-3">
+						<div>
+							<span class="text-dark   d-inline">CA 1: </span>
+							<div id="time1" class="alert alert-light d-inline text-danger" style="font-size:1em;font-family:arial;letter-spacing:2px; font-weight:600;">Closed</div>
 						</div>
 					</div>
-					<div class="col-sm-12 col-md-3">
-						<div><span class="text-dark ml-5  d-inline-block">CA 2 Time Left:</span>
-							<div id="time2" class="alert alert-light p-1 text-danger text-center" style="font-size:1em;font-family:arial;letter-spacing:2px; font-weight:600;">Time Closed</div>
+					<div class="col-sm-6 col-md-3">
+						<div>
+							<span class="text-dark   d-inline">CA 2: </span>
+							<div id="time2" class="alert alert-light d-inline text-danger" style="font-size:1em;font-family:arial;letter-spacing:2px; font-weight:600;">Closed</div>
 						</div>
 					</div>
-					<div class="col-sm-12 col-md-3">
-						<div><span class="text-dark ml-5  d-inline-block">CA 3 Time Left:</span>
-							<div id="time3" class="alert alert-light p-1 text-danger text-center" style="font-size:1em;font-family:arial;letter-spacing:2px; font-weight:600;">Time Closed</div>
+					<div class="col-sm-6 col-md-3">
+						<div>
+							<span class="text-dark   d-inline">CA 3: </span>
+							<div id="time3" class="alert alert-light d-inline text-danger" style="font-size:1em;font-family:arial;letter-spacing:2px; font-weight:600;">Closed</div>
 						</div>
 					</div>
-					<div class="col-sm-12 col-md-3">
-						<div><span class="text-dark ml-5  d-inline-blockfo">Exam Time Left:</span>
-							<div id="time4" class="alert alert-light p-1 text-danger text-center" style="font-size:1em;font-family:arial;letter-spacing:2px; font-weight:600;">Time Closed</div>
+					<div class="col-sm-6 col-md-3">
+						<div>
+							<span class="text-dark   d-inline">Exam: </span>
+							<div id="time4" class="alert alert-light t d-inline text-danger" style="font-size:1em;font-family:arial;letter-spacing:2px; font-weight:600;">Closed</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<hr >
 			<div class="row w-100" style="padding:10px 0px 0px 0px; margin: 0px; display: flex;">
-				<div class="col-xs-3 col-sm-5 col-md-3 col-lg-2" style="padding: 0px; width: 220px;">
-					<ul id="mcl">
+				<div class=" col-sm-12 col-md-3 col-lg-2" style="padding: 0px; min-width: 220px;">
+				<table class="table table-hover mt-5 side-table w-100" style="border: 1px solid #ccc;border-radius; user-select:none;">
+                        <thead class="d-none">
+                            <th class="no-visible">Class</th>
+                        </thead>
+                        <tbody>
 						<?php
 						//$c_teacher_subject = $conn->query("SELECT * FROM staff_subjects as ss INNER JOIN classes as c ");
 						//$sql = "SELECT *, sr.class_id as bid, sr.id as srid, t.id as tid, s.section_id as sid,sb.id as sbid FROM staff_subjects as sr INNER JOIN classes AS b ON sr.class_id=b.class_id INNER JOIN subject AS sb ON sr.subject_id=sb.id INNER JOIN term AS t ON t.id=sr.term_id INNER JOIN session AS s ON s.section_id='$session_id' WHERE sr.staff_info_id='$user_id'";
@@ -365,12 +377,23 @@ if (isset($_REQUEST['act']) && @$_REQUEST['act'] == "1") {
 						
 						echo mysqli_error($conn);
 						if ($c_teacher_subject->num_rows > 0) {
+							$num = 0;
 							while ($row = $c_teacher_subject->fetch_assoc()) {
+								$num++;
 								$srid = $row['srid'];
 								/*	$session =$row['section'];
 									$term =$row['description'];*/
 						?>
-								<li id="<?php echo 'list' . $srid; ?>"><span class="fa fa-book s3"></span><span id="si1"><?php echo ucwords($row['subject']); ?><br><?php echo ucwords($row['class_name']); ?><br><?php echo ucwords($row['description']); ?>, <?php echo ucwords($row['section']); ?><br>session</br></span></li>
+						
+						<tr id="<?php echo 'list' . $srid; ?>" tabindex="1">
+                                <td class="py-2  px-4 booxinn d-flex" style="display: flex;align-items:center;">
+								<span class="fa fa-book s3  d-inline" style="width: 20%;"></span>
+								<span class=" d-inline" id="si1" style="width: 80%;">
+									<span class="no-b mr-3"><?php echo ucwords($row['subject']); ?><br><?php echo ucwords($row['class_name']); ?></span>
+									<span class="text-center" ><span class="no-b"> <?php echo ucwords($row['description']); ?> </span>, <?php echo ucwords($row['section']); ?> session </span> 
+								</span>
+                                </td>
+                            </tr>								
 								<script>
 									
 									$(document).ready(function() {
@@ -400,17 +423,27 @@ if (isset($_REQUEST['act']) && @$_REQUEST['act'] == "1") {
 						}
 						?>
 
-					</ul>
+                        </tbody>
+                    </table>				
 				</div>
 				<script>
 					//alert();
 					$(function() {
-						$("#mcl").JPaging();
+						$('.side-table').DataTable({
+							responsive: true,
+							dom: 'Bfrtip',
+							buttons: [
+								/* 'copy', 'excel', */
+								'pdf'
+							],
+							pageLength: 7,
+							bInfo: false,
+						});
 					});
 					
 				</script>
-				<div class=" col-md-8 col-lg-10" style="min-width: 600px;">
-					<div id="">											
+				<div class=" col-md-8 col-lg-10" style="overflow-x:scroll">
+					<div id="" style="min-width: 350px;">											
 						<div style="position: absolute;top:-21.3%; left: 0; width: 100%;  overflow-y: none;">
 							<div class="loader" id="load1" style="margin-left: 0px; margin-right: 0px; display:none;"></div>
 						</div>

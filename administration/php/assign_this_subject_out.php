@@ -22,7 +22,7 @@
 		//check if the staff is already assigned before
 		
 		/*$sub_check = "select * from staff_subjects where subject_id = ".$subject_id." and staff_info_id = ".$staff_info_id." and session_id = ".$session_id;*/
-		$sub_check_run =  mysqli_query($conn,"SELECT * FROM staff_subjects WHERE subject_id='$subject_id' AND staff_info_id = '$staff_info_id' AND session_id = '$session_id' AND class_id = '$class_id'") or die(mysqli_error($conn));
+		$sub_check_run =  mysqli_query($conn,"SELECT * FROM staff_subjects WHERE subject_id='$subject_id' AND staff_info_id = '$staff_info_id' AND session_id = '$session_id' AND class_id = '$class_id' AND term_id='$term_id'") or die(mysqli_error($conn));
 		$num_rows_sub_check= mysqli_num_rows($sub_check_run);
 		/*
 			$sub_check2 = "select * from staff_subjects where subject_id = '$subject_id'  and status ='1'";
