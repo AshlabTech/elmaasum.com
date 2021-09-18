@@ -40,7 +40,7 @@ session_start();
 		}
 
 		.d-none {
-			display: none;
+			display: none  !important;
 		}
 
 		.row {
@@ -107,6 +107,17 @@ session_start();
 		td{
 			font-size: 0.9em;
 		}
+		.reduceHeight{
+			max-height: 30px !important;
+			transition: max-height 0.2s;
+		}
+		#topTohide{
+			transition: max-height 0.2s;
+		}
+		.h7x{
+			transition: max-height 0.2s;
+			height:150px;
+		}
 	</style>
 </head>
 <?php
@@ -153,14 +164,13 @@ $termname="";
 include_once('../../php/staff_data.php');
 ?>
 
-<h4><i class="menu-icon fa fa-desktop"></i> Form Teacher</h4>
-
-<br>
-<div class="row w-100 p-0 m-0" style="color:#067;;" id="access_options_wrap">
-	<div class="col-lg-12 p-0">
-		<form class="form-horizontal p-0 m-0" method="POST" action="">
+<div class="row w-100 p-0 pr-0 m-0" style="color:#067;position:relative;" id="access_options_wrap">
+	<div class="col-lg-12 p-0 pb-3 bg-white" id="topTohide" style="position:fixed; z-index:5;border-bottom: 1px solid #ccc;">	
+		<h4><i class="menu-icon fa fa-desktop" id="topTohideBtn"></i> Form Teacher</h4>
+		<br>
+		<form class="form-horizontal p-0 m-0" id="formSeachx" method="POST" action="">
 			<div class="form-group row w-100 m-0 0-0">
-				<div class="col-sm-3 pl-0">
+				<div class="col-sm-3 pl-0 mt-2">
 					<input type="text" value="" id="classname" name="classname" style="display: none;">
 					<input type="text" value="" id="termname" name="termname" style="display: none;">
 					<select required="" class='form-control' name="class_id" onchange="(function(){document.getElementById('classname').value= document.getElementById('class_idd').options[document.getElementById('class_idd').selectedIndex].text; })()" style="margin:5px;color:#000" id="class_idd">
@@ -169,6 +179,8 @@ include_once('../../php/staff_data.php');
 						//check if the class is already assign but status = 1			
 						$check_if_assigned = mysqli_query($conn, "select * from staff_classes where staff_info_id = '$staff_info_id'  and status = '1'") or die(mysqli_error($conn));
 						$check_if_assigned_num_rows = mysqli_num_rows($check_if_assigned);
+						$class_id_p = $_POST['class_id']??'';
+						$term_id_p = $_POST['term']??'';
 						if ($check_if_assigned_num_rows > 0) {
 							$mm = 1;
 							while ($class_rows = mysqli_fetch_array($check_if_assigned)) {
@@ -181,24 +193,26 @@ include_once('../../php/staff_data.php');
 
 								$class_n = $class_name_rows['class_name'];
 
-								echo '<option value=' . $class_id . '>' . $class_n . '</option>';
+								echo "<option value=\"$class_id\"" ;
+								echo  $class_id_p==$class_id?"selected":""; 
+								echo ">$class_n</option>";
 							}
 						}
 						?>
 					</select>
 				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-3 pl-0 mt-2">
 					<select required="" class='form-control' name="term" style="margin:5px;" id="term_id" onchange="(function(){document.getElementById('termname').value= document.getElementById('term_id').options[document.getElementById('term_id').selectedIndex].text; })()">
 						<option value="">SELECT TERM</option>
-						<option value="1">first term</option>
-						<option value="2">second term</option>
-						<option value="3">third term</option>
+						<option value="1" <?= $term_id_p=='1'?"selected":"" ?> >first term</option>
+						<option value="2" <?= $term_id_p=='2'?"selected":"" ?> >second term</option>
+						<option value="3" <?= $term_id_p=='3'?"selected":"" ?> >third term</option>
 					</select>
 				</div>
-				<div class="col-sm-3">
-					<input type="submit" name="enterT" value="load" class="btn btn-primary mt-1">
+				<div class="col-sm-12 col-md-3 mt-2">
+					<input type="submit" name="enterT" value="load" class="btn btn-primary mt-1 w-100">
 				</div>
-				<div class="col-sm-3">
+				<div class="col-sm-3 p-0 mt-2 px-2 pt-1">
 					<select class="float-right form-control" id="pageType">
 						<option value="trait">Traits</option>
 						<option value="comment">comments</option>
@@ -206,34 +220,34 @@ include_once('../../php/staff_data.php');
 				</div>
 			</div>
 		</form>
-	
-		<hr>
+		
 	</div>
-
-	<div class="row w-100 m-0" id="traitPage">
+	<div class="col-lg-12 p-0 bg-white h7x mb-3"></div>
 	
-		<div class="p-0 col-sm-6 col-md-6 col-lg-5" style="min-width: 400px;">
+	<div class="d-flex w-100 m-0" id="traitPage" style="min-width: 900px;">
+		<div class="p-0" style="width: 400px;">
+		
 			<div id="">
 				<div style="position: absolute;top:-21.3%; left: 0; width: 100%;  overflow-y: none;">
 					<div class="loader" id="load1" style="margin-left: 0px; margin-right: 0px; display:none;"></div>
 				</div>
 				<div id="class-cont" style="color:#666;">
-					<p style="" id="showClass"></p>
+					<p style="" class="d-none" id="showClass"></p>
 
 					<div style="">
 						<?php
 						if (isset($_POST['enterT'])) {
 							$classname = $_POST['classname'];
 							$termname = $_POST['termname'];
-							echo '<h4 style="margin:0px;padding:0px;">' . $classname . ' ' . ucwords($termname) . '</h4>';
+							//echo '<h4 style="margin:0px;padding:0px;">' . $classname . ' ' . ucwords($termname) . '</h4>';
 						}
 
 						?>
-						<div class="headerC mt-2" style="">
+						<div class=" mt-2" style="">
 
 							<!--<button class="btn btn-info" onclick="saveResultBtn();">save</button>-->
 						</div>
-						<div class="bodyC" style="overflow: scroll;">
+						<div class="p-2 border rounded" style="overflow: scroll;">
 							<table class="table w-100 table-condensed table-striped table-hover" id="table">
 								<thead style="background: #fff !important;">
 									<th style="background: #fff !important;">Student ID</th>
@@ -245,13 +259,8 @@ include_once('../../php/staff_data.php');
 									if (isset($_POST['enterT'])) {
 										$class_id = $_POST['class_id'];
 										$term_id = $_POST['term'];
-
-
-
 										$get_student_in_class = mysqli_query($conn, "SELECT * FROM student_classes as s INNER JOIN student_info as i on i.student_info_id = s.student_info_id WHERE s.class_id = '$class_id' AND s.session_id ='$current_session_id'") or die(mysqli_error($conn));
-
 										$num_rows_all_class = mysqli_num_rows($get_student_in_class);
-
 
 										if (!$get_student_in_class) {
 											echo "<script>alert(" . mysqli_error($conn) . ");</script>";
@@ -262,7 +271,7 @@ include_once('../../php/staff_data.php');
 											while ($row = $get_student_in_class->fetch_assoc()) {
 												$stid = $row['student_info_id'];
 												//$studentIds[] = $stid;
-									?>
+											?>
 												<tr rel="<?php echo $stid; ?>">
 													<td><?php echo $row['adm_no']; ?></td>
 													<td><?php echo $row['first_name'] . ' ' . $row['other_name'] . ' ' . $row['last_name']; ?></td>
@@ -292,11 +301,12 @@ include_once('../../php/staff_data.php');
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-1"></div>
-		<div class="col-sm-6 col-xs-12 col-md-6 col-lg-6 p-0" style="padding: 4px; min-width: 345px;">
-			<div id="traits" style="width: 100%;">
-				<button class="btn btn-info ml-2"  onclick="saveResultBtn();">save</button>
-				<div style="margin: 10px 0px 0px 10px; border:1px solid #eee; box-shadow: 0px 1px 1px #ccc;">
+		<div class=" " style="min-width: 70px;"></div>
+		<div class="pt-1" style="width: 400px;">		
+			<div id="traits" class="p-2 border rounded" style="width: 100%;">
+				<button class="btn w-100 btn-light text-dark mb-2">save</button>
+				
+				<div style="border:1px solid #eee; box-shadow: 0px 1px 1px #ccc;">
 					<select style=""></select>
 				</div>
 
@@ -333,9 +343,9 @@ include_once('../../php/staff_data.php');
 			AVG(total) as total_avg,
 			AVG(total3) as total_avg3, cm.comment1, cm.comment2 
 			FROM `contineous_accessment` AS c INNER JOIN student_info as s ON s.student_info_id= c.student_info_id 
-			LEFT JOIN comments AS cm ON (cm.student_info_id = s.student_info_id AND cm.session_id ='8' AND cm.class_id='4' AND cm.term_id='1')
+			LEFT JOIN comments AS cm ON (cm.student_info_id = s.student_info_id AND cm.session_id ='$current_session_id' AND cm.class_id='$class_id' AND cm.term_id='$term_id')
 			WHERE c.session_id ='$current_session_id' AND c.class_id='$class_id' AND c.term_id='$term_id' GROUP BY c.student_info_id;
-			";			
+			";						
 			$run = $conn->query($sql) or die(mysqli_error($conn));
 			if ($run->num_rows > 0) {
 				while ($row = $run->fetch_assoc()) {
@@ -353,7 +363,7 @@ include_once('../../php/staff_data.php');
 		?>
 			<div class="col-sm-12 col-md-12 col-lg-12" style="min-width: 400px;">
 				<div class="d-flex">
-					<h5 class="pt-2 mr-3">{{classname}} - {{termname}}</h5>
+					<!-- <h5 class="pt-2 mr-3">{{classname}} - {{termname}}</h5> -->
 					<div id="btncomments">
 						<button @click="savecomment" class="btn btn-info mr-3">Save</button>
 					</div>
@@ -459,7 +469,12 @@ if(isset($_POST['enterT'])){
 	<script>
 
 		$(document).ready(function() {
-
+			$('#topTohideBtn').click(function(){				
+				$('#topTohide').toggleClass('reduceHeight');
+				$('.h7x').toggleClass('reduceHeight');
+				$('#formSeachx').slideToggle();
+				
+			});
 		$('.table').DataTable({
 			responsive: true,
 			dom: 'Bfrtip',
@@ -618,7 +633,7 @@ if(isset($_POST['enterT'])){
 
 		},
 		mounted() {
-			console.log(this.savedComment)
+		//	console.log(this.savedComment)
 		}
 
 	})

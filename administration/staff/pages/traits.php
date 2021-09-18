@@ -12,8 +12,8 @@ $tid = $_POST['tid'];
 		<img src="../../../images/ajax-loader.gif"><br> please, wait...		
 	</div>
 </div>
-<button class="btn btn-info" onclick="saveResultBtn();">save</button>
-<div style="margin: 10px 0px 0px 30px; border:1px solid #eee; box-shadow: 0px 1px 1px #ccc;">
+<button class="btn w-100 btn-light text-dark mb-2" onclick="saveResultBtn();">save</button>
+<div style="border:1px solid #eee; box-shadow: 0px 1px 1px #ccc;">
 	<select style="" class="form-control" id="selectTraits">
 		<option value="affective_domain">affective Domain</option>
 		<option value="psycomotor">Psycomotor</option>
