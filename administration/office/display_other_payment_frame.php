@@ -103,6 +103,33 @@ $payment_historyx = [];
         .modal-backdrop {
             background-color: transparent;
         }
+        /* xs */
+.w-xs {
+    width: 100%;
+    height: auto;
+}
+.onMobile{
+    min-height: 60px;
+}
+/* sm */
+@media (min-width: 768px) {
+    .w-xs {
+        width: 100%;
+    }
+}
+/* md */
+@media (min-width: 992px) {
+    .w-xs {
+        width: 80%;
+        margin:10px auto;
+    }
+}
+/* lg */
+@media (min-width: 1200px) {
+    .w-xs {
+        width: 75%;
+    }
+}
     </style>
 
 </head>
@@ -149,7 +176,7 @@ $payment_historyx = [];
             <div class="row w-100 mt-2" v-if="mode==2" key="paymenthistorymode">
 
                 <div class="col-lg-12 col-md-12" style="position: relative;">
-                    <div class="w-75  ml-5 px-5" style="position: absolute;padding-top:35px;" v-show="isloading==false">
+                    <div class="w-xs" style="position: absolute;" v-show="isloading==false">
                         <button class="btn btn-light btn-sm w-25 py-2" style="float: right;">Search</button>
                         <select class="form-control mx-2" style="width: 25%; float:right" id="searchType">
                             <option value="">Select Type</option>
@@ -160,6 +187,7 @@ $payment_historyx = [];
                             <option v-for="year in years" :value="year">{{year.year}}</option>
                         </select>
                     </div>
+                    <div class="onMobile"></div>
                     <table class="table table-bordered table-hover w-100 table2" id="table02" v-show="isloading==false">
                         <thead>
                             <tr>
@@ -195,7 +223,7 @@ $payment_historyx = [];
                     </table>
 
                 </div>
-                <input type="text" :value="forIframeLoaded" id="forIframeLoaded" >
+                <input type="text" :value="forIframeLoaded" class="d-none" id="forIframeLoaded" >
             </div>
         </transition-group>
 
@@ -343,7 +371,7 @@ $payment_historyx = [];
                             </tbody>
                         </table>
                         <p style="margin-bottom:1px;">{{selectedDescrip}}</p>
-                        <table class="table table-bordered">
+                        <table class="w-100 table-bordered">
                             <tr v-for="part in receiptHistory">
                                 <td>{{part.payment_date}}</td>
                                 <td>{{part.amount}}</td>
@@ -383,6 +411,7 @@ $payment_historyx = [];
                 pageLength: 6,
 
             });
+            $('#iframeloaderx', parent.document).hide();
         })
 
         var vm = new Vue({

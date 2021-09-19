@@ -19,6 +19,7 @@
 	   <meta name="viewport" content="width=device-width, initial-scale=1" >
 	   
 		<link rel="stylesheet" href="../../css/bootstrap.css">
+		<link rel="stylesheet" href="../js/bootstrap.css">
 		<link rel="stylesheet" href="../../css/bootstrap.min.css">
 		<link rel="stylesheet" href="../../css/bootstrap-theme.css">
 		<link rel="stylesheet" href="../../css/bootstrap-theme.min.css">
@@ -35,17 +36,15 @@
 			margin:0;
 			padding:0;
 			font-size : 11.5px;
-			min-width:1100px;
-		
-				
+			width: 100%;
 		}
 		</style>
 
 	</head>
-<body style="background:#fff">
+<body style="background:#fff" cl>
 
 <div class="container-fluid" style="margin:0;padding:0" id="summary_payment_id100">
-				<div class="row" style="margin-bottom:10px">
+				<div class="row w-100" style="margin-bottom:10px">
 					<div class="col-md-12 " style="padding:">
 						
 							<div class="form-inline"  style="margin:5px 20px">
@@ -157,8 +156,8 @@
 						
 				
 			
-			<div class="row" style="margin:0;;min-height:400px;">
-				<div class="col-md-10" id="make_payement_student_search_wrap" style="padding:">
+			<div class="row w-100" style="margin:0;;min-height:400px;">
+				<div class="col-md-10" id="make_payement_student_search_wrap" style="padding:0 0 0 4px;">
 					<div id="image_slider_wrap" >
 						<div id="outerbox" >
 						<div id="slide_box">

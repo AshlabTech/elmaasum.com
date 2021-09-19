@@ -708,8 +708,8 @@ function display_other_payments() {
       getId("make_payement_student_search_wrap").innerHTML = response;
       setTimeout(() => {
         var interval = setInterval(() => {						
-          if($('iframeother').contents().find('#forIframeLoaded').val() == 200){
-            $('#iframeLoader').hide();
+          if($('#iframeotherx').contents().find('#forIframeLoaded').val() == 200){
+            $('#iframeloaderx').hide();
             clearInterval(interval);
           }
           

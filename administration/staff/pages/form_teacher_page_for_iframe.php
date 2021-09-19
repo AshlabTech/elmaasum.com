@@ -20,10 +20,12 @@ session_start();
 
 	<script src="../../js/propper.js"></script>
 	<link rel="stylesheet" type="text/css" href="../../js/datatable/datatables.min.css" />
+	<link rel="stylesheet" type="text/css" href="../../js/datatable/datatable_header_fixed.css" />
 
 	<script type="text/javascript" src="../../js/datatable/pdfmake.min.js"></script>
 	<script type="text/javascript" src="../../js/datatable/datatables.min.js"></script>
 	<script type="text/javascript" src="../../js/datatable/vfs_fonts.js"></script>
+	<script type="text/javascript" src="../../js/datatable/datatable_header_fixed.js"></script>
 	<script src="../../js/vue.js"></script>
 
 	<style>
@@ -52,6 +54,12 @@ session_start();
 			margin: 3px;
 			cursor: pointer;
 		}
+		.formodal thead tr th {
+			position: -webkit-sticky;
+			position: sticky;
+			top: 0;
+			background-color: white;
+			}
 
 		.bd:hover {
 			background: #555 !important;
@@ -118,6 +126,12 @@ session_start();
 			transition: max-height 0.2s;
 			height:150px;
 		}
+		#traitPage{
+			overflow-x: hidden;
+		}
+		.changebxmHeight{
+			height: 86.5vh !important;
+		}
 	</style>
 </head>
 <?php
@@ -164,9 +178,12 @@ $termname="";
 include_once('../../php/staff_data.php');
 ?>
 
-<div class="row w-100 p-0 pr-0 m-0" style="color:#067;position:relative;" id="access_options_wrap">
+<div class="row w-100 p-0 pr-0 m-0" style="color:#067;position:relative;overflow:hidden" id="access_options_wrap">
 	<div class="col-lg-12 p-0 pb-3 bg-white" id="topTohide" style="position:fixed; z-index:5;border-bottom: 1px solid #ccc;">	
-		<h4><i class="menu-icon fa fa-desktop" id="topTohideBtn"></i> Form Teacher</h4>
+		<span class="d-flex justify-content-between align-items-center px-2 ">
+			<h5 class="" id="topTohideBtn" style="cursor: pointer;"><i class="menu-icon fa fa-desktop" ></i> Form Teacher</h5>
+			<h6 style="font-size: 0.7em;" class="d-block d-md-none" id="headerName"></h6>
+		</span>
 		<br>
 		<form class="form-horizontal p-0 m-0" id="formSeachx" method="POST" action="">
 			<div class="form-group row w-100 m-0 0-0">
@@ -224,31 +241,31 @@ include_once('../../php/staff_data.php');
 	</div>
 	<div class="col-lg-12 p-0 bg-white h7x mb-3"></div>
 	
-	<div class="d-flex w-100 m-0" id="traitPage" style="min-width: 900px;">
-		<div class="p-0" style="width: 400px;">
+	<div class="row w-100 m-0" id="traitPage" >
+		<div class="p-0 col-md-4" style="">
 		
-			<div id="">
-				<div style="position: absolute;top:-21.3%; left: 0; width: 100%;  overflow-y: none;">
+			<div class="w-100">
+				<div style="position: absolute;top:-21.3%; left: 0; width: 100%; ">
 					<div class="loader" id="load1" style="margin-left: 0px; margin-right: 0px; display:none;"></div>
 				</div>
-				<div id="class-cont" style="color:#666;">
+				<div id="class-cont" class="px-2" style="color:#666;">
 					<p style="" class="d-none" id="showClass"></p>
 
-					<div style="">
-						<?php
-						if (isset($_POST['enterT'])) {
-							$classname = $_POST['classname'];
-							$termname = $_POST['termname'];
-							//echo '<h4 style="margin:0px;padding:0px;">' . $classname . ' ' . ucwords($termname) . '</h4>';
-						}
+			<!-- 	<?php
+				/* 	if (isset($_POST['enterT'])) {
+						$classname = $_POST['classname'];
+						$termname = $_POST['termname'];
+						//echo '<h4 style="margin:0px;padding:0px;">' . $classname . ' ' . ucwords($termname) . '</h4>';
+					} */
 
-						?>
-						<div class=" mt-2" style="">
+				?>
+				<div class=" mt-2" style="">
 
-							<!--<button class="btn btn-info" onclick="saveResultBtn();">save</button>-->
-						</div>
-						<div class="p-2 border rounded" style="overflow: scroll;">
-							<table class="table w-100 table-condensed table-striped table-hover" id="table">
+					<button class="btn btn-info" onclick="saveResultBtn();">save</button>
+				</div>
+			-->
+						<div class="p-2 border rounded" >
+							<table class="table w-100 table-condensed table-striped table-hover d-none" id="table">
 								<thead style="background: #fff !important;">
 									<th style="background: #fff !important;">Student ID</th>
 									<th style="background: #fff !important;" width="60%">Name</th>
@@ -263,7 +280,7 @@ include_once('../../php/staff_data.php');
 										$num_rows_all_class = mysqli_num_rows($get_student_in_class);
 
 										if (!$get_student_in_class) {
-											echo "<script>alert(" . mysqli_error($conn) . ");</script>";
+										//	echo "<script>alert(" . mysqli_error($conn) . ");</script>";
 										}
 										if ($num_rows_all_class > 0) {
 											$n = 1;
@@ -272,7 +289,7 @@ include_once('../../php/staff_data.php');
 												$stid = $row['student_info_id'];
 												//$studentIds[] = $stid;
 											?>
-												<tr rel="<?php echo $stid; ?>">
+												<tr rel="<?php echo $stid; ?>" name="<?= $row['first_name'] . ' ' . $row['other_name'] . ' ' . $row['last_name']; ?>" >
 													<td><?php echo $row['adm_no']; ?></td>
 													<td><?php echo $row['first_name'] . ' ' . $row['other_name'] . ' ' . $row['last_name']; ?></td>
 												</tr>
@@ -296,13 +313,11 @@ include_once('../../php/staff_data.php');
 							</table>
 
 						</div>
-
-					</div>
 				</div>
 			</div>
 		</div>
-		<div class=" " style="min-width: 70px;"></div>
-		<div class="pt-1" style="width: 400px;">		
+		<div class="col-md-1" style="min-width: 70px;"></div>
+		<div class="pt-1 col-md-7" style="">		
 			<div id="traits" class="p-2 border rounded" style="width: 100%;">
 				<button class="btn w-100 btn-light text-dark mb-2">save</button>
 				
@@ -361,15 +376,15 @@ include_once('../../php/staff_data.php');
 				}
 			}
 		?>
-			<div class="col-sm-12 col-md-12 col-lg-12" style="min-width: 400px;">
-				<div class="d-flex">
-					<!-- <h5 class="pt-2 mr-3">{{classname}} - {{termname}}</h5> -->
-					<div id="btncomments">
-						<button @click="savecomment" class="btn btn-info mr-3">Save</button>
+			<div class="col-sm-12 col-md-12 col-lg-12">
+				<div class="d-flex">					
+					<div id="btncomments" class="w-75">
+						<button @click="savecomment" class="btn w-50 btn-light text-dark mr-3">Save</button>
 					</div>
 				</div>
-				<div class="bodyC bxml" style="overflow: scroll;">
-					<table class="w-100 table table-condensed table-striped table-hover" id="table">
+				<div style="overflow: scroll; height:67vh">				
+				<div class="bodyC bxml" style="" >
+					<table class="w-100 table table-condensed table-striped table-hover" id="table2">
 						<thead style="background: #fff !important;">
 							<th class="">Student ID</th>
 							<th class="">Name</th>
@@ -386,7 +401,7 @@ include_once('../../php/staff_data.php');
 							<th  class="">VP's Comment</th>
 						</thead>
 						<tbody id="commentdatavalue">
-							<tr v-for="(list,index) in lists">
+							<tr  v-for="(list,index) in lists" >							
 								<td class="ptt-2">{{list.adm_no}}</td>
 								<td  class="ptt-2">{{list.fullname}}</td>
 								<td class="ptt-2">{{list.A}}</td>
@@ -403,12 +418,23 @@ include_once('../../php/staff_data.php');
 
 								<td class="ptt-2" v-if="term_id == 3">{{giveRank(list.total3, 'total3')}}</td>
 								<td class="ptt-2" v-else>{{ giveRank(list.total, 'total')}}</td>
-								<td class="ptt-2">
+
+								<td v-if="term_id==3" class="ptt-2" :title="'Pos: '+giveRank(list.total3??0, 'total3') +', Avg: '+list.total_avg3??0 ">
 									<input type="text" :value="list.student_info_id" class="d-none">
 									<textarea  cols="2" :value="list.comment1" :id="'com_1_'+index" class="comment1 form-control" maxlength="280" style="width: 210px;"  >{{ list.comment1??""}}</textarea>
 									<a data-toggle="modal" data-target="#exampleModalCenter" @click="setContainerId('com_1_'+index)" class="btn2 ">Insert Template...</a>
 								</td>
-								<td>
+								<td v-else class="ptt-2" :title="'Pos: '+ giveRank(list.total??0, 'total')+ ', Avg: '+list.total_avg??0">
+									<input type="text" :value="list.student_info_id" class="d-none">
+									<textarea  cols="2" :value="list.comment1" :id="'com_1_'+index" class="comment1 form-control" maxlength="280" style="width: 210px;"  >{{ list.comment1??""}}</textarea>
+									<a data-toggle="modal" data-target="#exampleModalCenter" @click="setContainerId('com_1_'+index)" class="btn2 ">Insert Template...</a>
+								</td>
+								
+								<td v-if="term_id==3"  :title="'Pos: '+giveRank(list.total3??0, 'total3') +', Avg: '+list.total_avg3??0">
+									<textarea  cols="2" :value="list.comment2" :id="'com_2_'+index" class="comment2 form-control" maxlength="280" style="width: 210px;" >{{list.comment2??""}}</textarea>
+									<a data-toggle="modal" data-target="#exampleModalCenter" @click="setContainerId('com_2_'+index)" class="btn2 my-1 d-inline-block">Insert Template...</a>
+								</td>
+								<td v-else   :title="' Pos: '+giveRank(list.total??0, 'total') +', Avg: '+list.total_avg?? 0">
 									<textarea  cols="2" :value="list.comment2" :id="'com_2_'+index" class="comment2 form-control" maxlength="280" style="width: 210px;" >{{list.comment2??""}}</textarea>
 									<a data-toggle="modal" data-target="#exampleModalCenter" @click="setContainerId('com_2_'+index)" class="btn2 my-1 d-inline-block">Insert Template...</a>
 								</td>
@@ -416,6 +442,7 @@ include_once('../../php/staff_data.php');
 						</tbody>
 					</table>
 
+				</div>
 				</div>
 				<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 					<div class="modal-dialog modal-dialog-centered" role="document">
@@ -427,7 +454,7 @@ include_once('../../php/staff_data.php');
 								</button>
 							</div>
 							<div class="modal-body">
-								<table class="table w-100 table-hover">
+								<table class="table w-100 table-hover formodal">
 									<thead>
 										<tr>
 											<th>s/n</th>
@@ -445,8 +472,7 @@ include_once('../../php/staff_data.php');
 								</table>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-								<button type="button" class="btn btn-primary">Save changes</button>
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>								
 							</div>
 						</div>
 					</div>
@@ -473,11 +499,24 @@ if(isset($_POST['enterT'])){
 				$('#topTohide').toggleClass('reduceHeight');
 				$('.h7x').toggleClass('reduceHeight');
 				$('#formSeachx').slideToggle();
-				
+				$('.bxml').parent().toggleClass('changebxmHeight');
 			});
-		$('.table').DataTable({
+		$('#table').DataTable({
+			responsive: false,
+			pageLength: 2,
+			pagingType:'full',
+			oLanguage: {
+				oPaginate: {
+					sNext: '<span >Prev</span>',
+    				sPrevious: '<span >Next</span>',
+				}
+			}
+
+		});
+		$('#table2').DataTable({
 			responsive: true,
 			dom: 'Bfrtip',
+			fixedHeader: true,
 			buttons: [
 				/* 'copy', 'excel', */
 				'pdf'
@@ -485,11 +524,23 @@ if(isset($_POST['enterT'])){
 			pageLength: 250,
 
 		});
+		$('#table_length').parent().hide();
+		$('#table_info').hide();
 		
 		setTimeout(() => {
-                $('.bxml .buttons-pdf').detach().appendTo('#btncomments');
-                //$('#pdfPrint').appendTo($('buttons-pdf').html());	                            
-            }, 1000);
+			$('.bxml .buttons-pdf').detach().appendTo('#btncomments');
+			//$('#pdfPrint').appendTo($('buttons-pdf').html());	     
+			$("#table").removeClass('d-none');
+				
+			$('#display_content',parent.document).css("padding","0px");
+			$("#table_wrapper").find('.row').addClass(function(index, e){				
+				if(index != 2){
+					$(this).addClass('w-100 m-0');
+					$(this).find('.col-sm-12').addClass('px-0')
+				}
+
+			})
+		}, 1200);
 		})
 	</script>
 	<?php
@@ -500,6 +551,8 @@ if(isset($_POST['enterT'])){
 		$(this).addClass('selected').siblings().removeClass('selected');
 		//var value=$(this).find('td:first').html();
 		var value = $(this).attr('rel');
+		var name = $(this).attr('name');
+		$('#headerName').text(name);
 		$.post('traits.php', {
 			stid: value,
 			tid: '<?php echo $term_id; ?>',
