@@ -707,14 +707,15 @@ function display_other_payments() {
     function (response) {
       getId("make_payement_student_search_wrap").innerHTML = response;
       setTimeout(() => {
-        var interval = setInterval(() => {						
-          if($('#iframeotherx').contents().find('#forIframeLoaded').val() == 200){
-            $('#iframeloaderx').hide();
+        var interval = setInterval(() => {
+          if (
+            $("#iframeotherx").contents().find("#forIframeLoaded").val() == 200
+          ) {
+            $("#iframeloaderx").hide();
             clearInterval(interval);
           }
-          
         }, 50);
-        }, 1000);
+      }, 1000);
     }
   );
 }
@@ -738,26 +739,25 @@ function reset_student_password() {
         Swal.showValidationMessage(`Please enter a valid input`);
         return 0;
       }
-	  var res ="";
+      var res = "";
       $.post(`reset_password_.php?`, { data: val }, function (response) {
-        if(response!=200){
-			Swal.showValidationMessage(`Please enter a valid input`);
-			return 0;
-		}else{
-			Swal.showValidationMessage(`changed successfully`);
-
-		}		
-	}).catch((error) => {
-		Swal.showValidationMessage(`Request failed: ${error}`);
-	});
-	return res;
+        if (response != 200) {
+          Swal.showValidationMessage(`Please enter a valid input`);
+          return 0;
+        } else {
+          Swal.showValidationMessage(`changed successfully`);
+        }
+      }).catch((error) => {
+        Swal.showValidationMessage(`Request failed: ${error}`);
+      });
+      return res;
     },
     allowOutsideClick: () => !Swal.isLoading(),
   }).then((result) => {
-      Swal.fire({
-        icon: "success",
-        title: `Proccessed`,
-      });
+    Swal.fire({
+      icon: "success",
+      title: `Proccessed`,
+    });
   });
 }
 
@@ -765,15 +765,15 @@ function updateStudentPayment(id, token, e) {
   var con = confirm("Are you sure you want to Update the payment?");
   var elt = $(e.target);
   var amt = elt.parent().parent().find(".amtc").val();
-  //var bal = elt.parent().next().find('input').val();
   var bal = elt.parent().parent().find(".balc").val();
   var paidby = elt.parent().parent().find(".payer").val();
+  var dat = elt.parent().parent().find('.date').val();
   if (con) {
     getId("make_payement_student_search_wrap").innerHTML =
       "<h4 style='text-align:center'><img src='../../images/ajax-loader.gif'></h4>";
     $.post(
       "updateStudentPayment.php",
-      { id: id, amt: amt, bal: bal, paidby: paidby },
+      { id: id, amt: amt, bal: bal, paidby: paidby,dat:dat },
       function (response) {
         alert(response);
         load_student_payment_details(token);
@@ -880,7 +880,6 @@ function score_entry_frame() {
   );
 }
 function laod_manage_form_teacher() {
-  
   document.getElementById("display_content").innerHTML =
     '<center><img src="../../images/ajax-loader.gif"><br> please, wait...</center>';
   $.post(
@@ -889,14 +888,18 @@ function laod_manage_form_teacher() {
     function (response, error) {
       getId("display_content").innerHTML = response;
       setTimeout(() => {
-        var interval = setInterval(() => {						
-          if($('#form_teacher_iframe').contents().find('#forIframeLoaded').val() == 200){
-            $('#iframeLoader').hide();
+        var interval = setInterval(() => {
+          if (
+            $("#form_teacher_iframe")
+              .contents()
+              .find("#forIframeLoaded")
+              .val() == 200
+          ) {
+            $("#iframeLoader").hide();
             clearInterval(interval);
           }
-          
         }, 50);
-        }, 1000);
+      }, 1000);
     }
   );
 }

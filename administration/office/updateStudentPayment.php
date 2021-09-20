@@ -5,6 +5,10 @@ if (isset($_POST['id'])) {
     $id = $_POST['id'];
     $amt = $_POST['amt'];
     $bal = $_POST['bal'];
+    $dates = explode('-',$_POST['dat']);
+    $year = $dates[0];
+    $month = $dates[1];
+    $day = $dates[2];
     $paidby = $_POST['paidby'];
 
 /* 
@@ -23,7 +27,7 @@ if (isset($_POST['id'])) {
     $school_fees = $row2['school_fees'];
 
  */
-    $UPDATE =  mysqli_query($conn, "UPDATE school_fees SET ballance='$bal', amount_paid='$amt', payment_madeBy='$paidby' where id='$id'") or die(mysqli_error($conn));
+    $UPDATE =  mysqli_query($conn, "UPDATE school_fees as s SET s.ballance='$bal', s.year='$year', s.month ='$month', s.day='$day', s.amount_paid='$amt', s.payment_madeBy='$paidby' where s.id='$id'") or die(mysqli_error($conn));
     $total_paid = 0;
 /*     $query =  mysqli_query($conn, "select * from school_fees where student_info_id = '$student_info_id' and session_id = '$session_id'  and class_id ='$class_id' AND id != $id") or die(mysqli_error($conn));
     while ($row = mysqli_fetch_assoc($query)) {

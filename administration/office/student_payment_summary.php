@@ -83,7 +83,7 @@
 															$amount_paid = $term_payment_rows['amount_paid'];
 															$ballance = $term_payment_rows['ballance'];
 															$payment_madeBy = $term_payment_rows['payment_madeBy'];
-															$date = $day.' - '.$month.' - '.$year;
+															$date = $year.'-'.$month.'-'.$day;
 															$tt = $tt + $amount_paid;
 															$totalamt = $amount_paid + $ballance;
 																echo '<tr>
@@ -101,7 +101,7 @@
 																		</td>
 																		<td>
 																			<span class="mdk_'.$sn.'">'.$date.'</span> 
-																			<input class="d-none" type="text" disabled value="'.$date.'">
+																			<input class="d-none date" type="date" value="'.$date.'">
 																		</td>
 																		<td>
 																			<span class="mdk_'.$sn.'">'.$payment_madeBy.'</span>
