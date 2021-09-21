@@ -18,7 +18,7 @@ if (empty($user_obj->auth())) {
 
 $user_id = $user_obj->auth()->staff_info_id;
 $query_string = isset($_GET['openC']) ? $_GET['openC'] : '' ;
-
+$term_id= 1;
 $branch = '';
 $amount = '';
 $detail = '';
@@ -331,11 +331,12 @@ if (isset($_REQUEST['act']) && @$_REQUEST['act'] == "1") {
         </div>		
 	</div>
 
-	<div id="page-wrapper" style="background: #fff !important;margin:0px;padding:10px 0px;display: none; width:100%;" onload="(function(){})()" >
-		<div id="page-inner">
-			<div class="row w-100 pl-3">
-				<div class="container-fluid col-sm-12 col-md-4 col-lg-4 text-center" style=" font-size: 2em;font-weight: bolder; font-family: arial;">Input Score For All CA</div>
-				<div class="timerC col-sm-12 col-md-8 col-lg-8 mx-auto row mt-2 w-100 border rounded" >
+	<div id="page-wrapper" style="background: #fff !important;margin:0px;padding:0px;display: none; width:100%;" onload="(function(){})()" >
+		<div id="page-inner" class="m-0 p-0">
+			<div class="row w-100 m-0">
+				<div class="container-fluid col-sm-12 col-md-4 col-lg-4 text-center d-none d-lg-block p-3 pt-4" style=" font-size: 2em;font-weight: bolder; font-family: arial;">Input Score For All CA</div>
+				<div class="container-fluid col-sm-12 col-md-4 col-lg-4 text-center d-lg-none shadow-sm" style=" font-size: 1em;font-weight: bolder; font-family: arial;">Input Score For All CA 2</div>
+				<div class="timerC col-sm-12 col-md-8 col-lg-8 mx-auto row mt-2 pr-2 w-100 border rounded" >
 					<div class="col-sm-6 col-md-3">
 						<div>
 							<span class="text-dark   d-inline">CA 1: </span>
@@ -363,7 +364,7 @@ if (isset($_REQUEST['act']) && @$_REQUEST['act'] == "1") {
 				</div>
 			</div>
 			<hr >
-			<div class="row w-100" style="padding:10px 0px 0px 0px; margin: 0px; display: flex;">
+			<div class="row w-100" style="padding:20px; margin: 0px; display: flex;">
 				<div class=" col-sm-12 col-md-3 col-lg-2" style="padding: 0px; min-width: 220px;">
 				<table class="table table-hover mt-5 side-table w-100" style="border: 1px solid #ccc;border-radius; user-select:none;">
                         <thead class="d-none">
@@ -373,7 +374,7 @@ if (isset($_REQUEST['act']) && @$_REQUEST['act'] == "1") {
 						<?php
 						//$c_teacher_subject = $conn->query("SELECT * FROM staff_subjects as ss INNER JOIN classes as c ");
 						//$sql = "SELECT *, sr.class_id as bid, sr.id as srid, t.id as tid, s.section_id as sid,sb.id as sbid FROM staff_subjects as sr INNER JOIN classes AS b ON sr.class_id=b.class_id INNER JOIN subject AS sb ON sr.subject_id=sb.id INNER JOIN term AS t ON t.id=sr.term_id INNER JOIN session AS s ON s.section_id='$session_id' WHERE sr.staff_info_id='$user_id'";
-						$c_teacher_subject = $conn->query("SELECT *, sr.class_id as bid, sr.id as srid, t.id as tid, s.section_id as sid,sb.id as sbid FROM staff_subjects as sr INNER JOIN classes AS b ON sr.class_id=b.class_id INNER JOIN subject AS sb ON sr.subject_id=sb.id INNER JOIN term AS t ON t.id=sr.term_id INNER JOIN session AS s ON s.section_id='$session_id' WHERE sr.staff_info_id='$user_id'");
+						$c_teacher_subject = $conn->query("SELECT *, sr.class_id as bid, sr.id as srid, t.id as tid, s.section_id as sid,sb.id as sbid FROM staff_subjects as sr INNER JOIN classes AS b ON sr.class_id=b.class_id INNER JOIN subject AS sb ON sr.subject_id=sb.id INNER JOIN term AS t ON t.id=sr.term_id INNER JOIN session AS s ON s.section_id='$session_id' WHERE sr.staff_info_id='$user_id' AND sr.term_id='$term_id'");
 						
 						echo mysqli_error($conn);
 						if ($c_teacher_subject->num_rows > 0) {
